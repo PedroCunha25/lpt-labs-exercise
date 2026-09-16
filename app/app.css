@@ -145,9 +145,8 @@ body {
   }
 }
 
-@utility container {
+@utility page {
   width: 100%;
-  margin-inline: auto;
   padding-inline: 16px;
 
   @variant sm {
