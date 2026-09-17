@@ -13,7 +13,7 @@ export function ProductCard({ id, title, price, thumbnail }: Product) {
           src={thumbnail}
           alt={title}
           loading="lazy"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-contain"
         />
       </div>
       <p className="mt-3 text-sm text-foreground">{title}</p>

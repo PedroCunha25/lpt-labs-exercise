@@ -1,4 +1,8 @@
-import type { Category, ProductListResponse } from "~/types/product";
+import type {
+  Category,
+  ProductDetail,
+  ProductListResponse,
+} from "~/types/product";
 
 const API_URL = "https://dummyjson.com";
 const PRODUCT_SELECT = "id,title,price,thumbnail,category";
@@ -98,6 +102,20 @@ function sortProducts(
 
     return a.title.localeCompare(b.title) * direction;
   });
+}
+
+export async function getProduct(id: string): Promise<ProductDetail> {
+  const response = await fetch(`${API_URL}/products/${id}`);
+
+  if (response.status === 404) {
+    throw new Response("Not Found", { status: 404 });
+  }
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch product: ${response.status}`);
+  }
+
+  return response.json();
 }
 
 export async function getCategories(): Promise<Category[]> {

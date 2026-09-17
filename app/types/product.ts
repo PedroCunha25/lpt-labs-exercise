@@ -18,3 +18,24 @@ export type Category = {
   name: string;
   url: string;
 };
+
+export type ProductDetail = {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  sku: string;
+  weight: number;
+  dimensions: {
+    width: number;
+    height: number;
+    depth: number;
+  };
+  warrantyInformation: string;
+  shippingInformation: string;
+  returnPolicy: string;
+  minimumOrderQuantity: number;
+  images: string[];
+  thumbnail: string;
+};
