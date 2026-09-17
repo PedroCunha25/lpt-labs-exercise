@@ -65,6 +65,7 @@ export function Header() {
             variant="ghost"
             size="icon"
             aria-label="Cart"
+            nativeButton={false}
             render={<Link to="/cart" />}
           >
             <ShoppingBag />
@@ -76,6 +77,7 @@ export function Header() {
             variant="ghost"
             size="icon"
             aria-label="Cart"
+            nativeButton={false}
             render={<Link to="/cart" />}
           >
             <ShoppingBag />
