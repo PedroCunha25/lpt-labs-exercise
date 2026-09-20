@@ -1,8 +1,11 @@
-import { isRouteErrorResponse, Link } from "react-router";
+import { data, isRouteErrorResponse, Link, useFetcher } from "react-router";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 import type { Route } from "./+types/product";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
+import { Spinner } from "~/components/ui/spinner";
 import {
   Accordion,
   AccordionContent,
@@ -11,6 +14,7 @@ import {
 } from "~/components/ui/accordion";
 import { ProductGallery } from "~/components/product/product-gallery";
 import { getProduct } from "~/lib/api.server";
+import { addToCart } from "~/lib/cart.server";
 
 export function meta({ loaderData }: Route.MetaArgs) {
   return [
@@ -27,8 +31,15 @@ export async function loader({ params }: Route.LoaderArgs) {
   return { product };
 }
 
+export async function action({ request, params }: Route.ActionArgs) {
+  const cookie = await addToCart(request, Number(params.id));
+  return data({ addedAt: Date.now() }, { headers: { "Set-Cookie": cookie } });
+}
+
 export default function Product({ loaderData }: Route.ComponentProps) {
   const { product } = loaderData;
+  const fetcher = useFetcher<typeof action>();
+  const isAddingToCart = fetcher.state !== "idle";
   const {
     title,
     description,
@@ -44,6 +55,12 @@ export default function Product({ loaderData }: Route.ComponentProps) {
     thumbnail,
   } = product;
 
+  useEffect(() => {
+    if (fetcher.state === "idle" && fetcher.data) {
+      toast.success(`${title} added to cart`);
+    }
+  }, [fetcher.state, fetcher.data, title]);
+
   return (
     <div className="page py-8 sm:py-12">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr]">
@@ -55,9 +72,16 @@ export default function Product({ loaderData }: Route.ComponentProps) {
         <div>
           <h1 className="mt-1 text-xl font-bold">{title}</h1>
           <p className="mt-1 text-xl font-bold">${price.toFixed(2)}</p>
-          <Button className="mt-4 w-full rounded-none" size="lg">
-            Add to Cart
-          </Button>
+          <fetcher.Form method="post">
+            <Button
+              type="submit"
+              className="mt-4 w-full rounded-none"
+              size="lg"
+              disabled={isAddingToCart}
+            >
+              {isAddingToCart ? <Spinner /> : "Add to Cart"}
+            </Button>
+          </fetcher.Form>
           <Separator className="mt-6" />
           <p className="mt-6 text-[10px] tracking-wide text-muted-foreground uppercase">
             Product Details
