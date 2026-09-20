@@ -10,6 +10,8 @@ import {
 import type { Route } from "./+types/root";
 import { Footer } from "~/components/layout/footer";
 import { Header } from "~/components/layout/header";
+import { Toaster } from "~/components/ui/sonner";
+import { getCart } from "~/lib/cart.server";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -29,6 +31,12 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+export async function loader({ request }: Route.LoaderArgs) {
+  const cart = await getCart(request);
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+  return { cartCount };
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -47,14 +55,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
+export default function App({ loaderData }: Route.ComponentProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      <Header cartCount={loaderData.cartCount} />
       <main className="flex-1">
         <Outlet />
       </main>
       <Footer />
+      <Toaster position="top-center" duration={3000} />
     </div>
   );
 }

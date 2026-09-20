@@ -31,6 +31,16 @@ function NavLink({ label }: { label: string }) {
   );
 }
 
+function CartBadge({ count }: { count: number }) {
+  if (count === 0) return null;
+
+  return (
+    <span className="absolute top-0.5 right-0.5 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+      {count}
+    </span>
+  );
+}
+
 function Logo() {
   return (
     <Link
@@ -42,7 +52,7 @@ function Logo() {
   );
 }
 
-export function Header() {
+export function Header({ cartCount }: { cartCount: number }) {
   return (
     <header className="border-b border-border bg-white">
       <div className="flex h-16 page items-center justify-between">
@@ -66,9 +76,10 @@ export function Header() {
             size="icon"
             aria-label="Cart"
             nativeButton={false}
-            render={<Link to="/cart" />}
+            render={<Link to="/cart" className="relative" />}
           >
             <ShoppingBag />
+            <CartBadge count={cartCount} />
           </Button>
         </div>
 
@@ -78,9 +89,10 @@ export function Header() {
             size="icon"
             aria-label="Cart"
             nativeButton={false}
-            render={<Link to="/cart" />}
+            render={<Link to="/cart" className="relative" />}
           >
             <ShoppingBag />
+            <CartBadge count={cartCount} />
           </Button>
           <Sheet>
             <SheetTrigger
