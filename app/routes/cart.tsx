@@ -65,8 +65,8 @@ export default function Cart({ loaderData }: Route.ComponentProps) {
 
   if (items.length === 0) {
     return (
-      <div className="page py-16 text-center">
-        <h1 className="text-xl font-bold">Your cart is empty</h1>
+      <div className="page animate-in py-16 text-center duration-200 ease-out fade-in slide-in-from-bottom-1">
+        <h1 className="text-xl font-bold tracking-tight">Your cart is empty</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Looks like you haven't added anything to your cart yet.
         </p>

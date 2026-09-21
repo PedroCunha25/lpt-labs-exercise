@@ -47,6 +47,7 @@ export function CartItem({ item }: { item: CartLine }) {
               type="submit"
               variant="ghost"
               size="icon-sm"
+              className="transition-transform duration-100 ease-out active:scale-95"
               aria-label={`Remove ${item.title} from cart`}
             >
               <Trash2 />
@@ -77,7 +78,7 @@ function QuantityButton({
         type="submit"
         variant="ghost"
         size="icon-sm"
-        className="flex size-4 items-center justify-center rounded-sm text-muted-foreground hover:text-foreground"
+        className="flex size-4 items-center justify-center rounded-sm text-muted-foreground transition-[color,transform] duration-100 ease-out hover:text-foreground active:scale-90"
         aria-label={label}
       >
         {children}

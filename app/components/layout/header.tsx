@@ -1,5 +1,6 @@
-import { Link } from "react-router";
+import { Link, NavLink as RouterNavLink } from "react-router";
 import { Menu, Search, ShoppingBag, User } from "lucide-react";
+import { cn } from "cn";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -12,20 +13,37 @@ import {
 
 const navLinks = ["Home", "Shop", "About", "Contact", "Blog"];
 
-function NavLink({ label }: { label: string }) {
-  const className =
-    "text-sm text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 rounded-sm";
+const navItemClass =
+  "rounded-md px-3 py-1.5 text-sm transition-colors duration-100 active:opacity-60 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none";
 
+function NavLink({ label }: { label: string }) {
   if (label === "Home") {
     return (
-      <Link to="/" className={className}>
+      <RouterNavLink
+        to="/"
+        end
+        className={({ isActive }) =>
+          cn(
+            navItemClass,
+            isActive
+              ? "bg-primary text-primary-foreground"
+              : "text-foreground hover:bg-primary/10 hover:text-primary",
+          )
+        }
+      >
         {label}
-      </Link>
+      </RouterNavLink>
     );
   }
 
   return (
-    <button type="button" className={className}>
+    <button
+      type="button"
+      className={cn(
+        navItemClass,
+        "text-foreground hover:bg-primary/10 hover:text-primary",
+      )}
+    >
       {label}
     </button>
   );
@@ -45,7 +63,7 @@ function Logo() {
   return (
     <Link
       to="/"
-      className="rounded-sm font-display text-2xl leading-none tracking-[0.06em] text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none sm:text-[32px]"
+      className="rounded-sm font-display text-2xl leading-none tracking-[0.06em] text-foreground transition-opacity duration-100 focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none active:opacity-60 sm:text-[32px]"
     >
       THE ONLINE STORE
     </Link>
@@ -58,7 +76,7 @@ export function Header({ cartCount }: { cartCount: number }) {
       <div className="flex h-16 page items-center justify-between">
         <Logo />
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-2 md:flex">
           {navLinks.map((label) => (
             <NavLink key={label} label={label} />
           ))}
@@ -106,12 +124,12 @@ export function Header({ cartCount }: { cartCount: number }) {
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
-              <nav className="flex flex-col gap-4 p-4">
+              <nav className="flex flex-col items-start gap-1 p-4">
                 {navLinks.map((label) => (
                   <NavLink key={label} label={label} />
                 ))}
               </nav>
-              <div className="flex items-center gap-2 border-t border-border p-4">
+              <div className="flex items-center gap-2 border-t border-border p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
                 <Button variant="ghost" size="icon" aria-label="Search">
                   <Search />
                 </Button>

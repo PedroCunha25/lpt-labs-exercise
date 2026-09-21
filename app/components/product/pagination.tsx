@@ -1,4 +1,5 @@
 import { useHref, useLinkClickHandler, useSearchParams } from "react-router";
+import { cn } from "cn";
 
 import {
   Pagination as PaginationRoot,
@@ -41,16 +42,19 @@ export function Pagination({
   return (
     <PaginationRoot className="mx-0 mt-10 justify-end">
       <PaginationContent>
-        {page > 1 && (
-          <PaginationItem>
-            <PageLink
-              to={toFor(page - 1)}
-              component={PaginationPrevious}
-              text=""
-              className="px-2"
-            />
-          </PaginationItem>
-        )}
+        <PaginationItem>
+          <PageLink
+            to={toFor(Math.max(1, page - 1))}
+            component={PaginationPrevious}
+            text=""
+            aria-disabled={page === 1}
+            tabIndex={page === 1 ? -1 : undefined}
+            className={cn(
+              "px-2 transition-opacity duration-150 ease-out",
+              page === 1 && "pointer-events-none opacity-30",
+            )}
+          />
+        </PaginationItem>
         {pages.map((pageNumber) => (
           <PaginationItem key={pageNumber}>
             <PageLink
@@ -67,16 +71,19 @@ export function Pagination({
             </PageLink>
           </PaginationItem>
         ))}
-        {page < totalPages && (
-          <PaginationItem>
-            <PageLink
-              to={toFor(page + 1)}
-              component={PaginationNext}
-              text=""
-              className="px-2"
-            />
-          </PaginationItem>
-        )}
+        <PaginationItem>
+          <PageLink
+            to={toFor(Math.min(totalPages, page + 1))}
+            component={PaginationNext}
+            text=""
+            aria-disabled={page === totalPages}
+            tabIndex={page === totalPages ? -1 : undefined}
+            className={cn(
+              "px-2 transition-opacity duration-150 ease-out",
+              page === totalPages && "pointer-events-none opacity-30",
+            )}
+          />
+        </PaginationItem>
       </PaginationContent>
     </PaginationRoot>
   );
@@ -93,6 +100,8 @@ function PageLink({
   isActive?: boolean;
   text?: string;
   className?: string;
+  "aria-disabled"?: boolean;
+  tabIndex?: number;
   children?: React.ReactNode;
 }) {
   const href = useHref(to);

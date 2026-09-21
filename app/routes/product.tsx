@@ -66,12 +66,15 @@ export default function Product({ loaderData }: Route.ComponentProps) {
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_1fr]">
         <ProductGallery
           images={images.length > 0 ? images : [thumbnail]}
+          thumbnail={thumbnail}
           title={title}
         />
 
         <div>
-          <h1 className="mt-1 text-xl font-bold">{title}</h1>
-          <p className="mt-1 text-xl font-bold">${price.toFixed(2)}</p>
+          <h1 className="mt-1 text-xl font-bold tracking-tight">{title}</h1>
+          <p className="mt-1 text-xl font-bold tracking-tight">
+            ${price.toFixed(2)}
+          </p>
           <fetcher.Form method="post">
             <Button
               type="submit"
@@ -132,7 +135,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   if (isRouteErrorResponse(error) && error.status === 404) {
     return (
       <div className="page py-16 text-center">
-        <h1 className="text-xl font-bold">Product not found</h1>
+        <h1 className="text-xl font-bold tracking-tight">Product not found</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           We couldn't find the product you're looking for.
         </p>
@@ -145,7 +148,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <div className="page py-16 text-center">
-      <h1 className="text-xl font-bold">Something went wrong</h1>
+      <h1 className="text-xl font-bold tracking-tight">Something went wrong</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Please try again later.
       </p>
