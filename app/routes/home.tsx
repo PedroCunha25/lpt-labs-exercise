@@ -108,7 +108,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                   <SheetHeader>
                     <SheetTitle>Filters</SheetTitle>
                   </SheetHeader>
-                  <div className="overflow-y-auto px-4 pb-4">
+                  <div className="overflow-y-auto overscroll-contain px-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
                     <CategoryFilter
                       categories={categories}
                       selected={selectedCategories}

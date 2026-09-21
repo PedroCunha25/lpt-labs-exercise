@@ -13,7 +13,7 @@ export function CartSummary({
 }) {
   return (
     <div className="rounded-xl border-2 border-primary p-5">
-      <h2 className="mb-5 text-base font-bold">Cart Summary</h2>
+      <h2 className="mb-5 text-base font-bold tracking-tight">Cart Summary</h2>
 
       <div className="flex items-center justify-between text-sm">
         <span>Subtotal</span>

@@ -111,4 +111,20 @@ No deployment. The brief asks for a repository.
 
 ## Accessibility
 
-Icon-only buttons have labels, images have alt text, every interactive element is reachable by keyboard with a visible focus ring, and each page has a heading — hidden where the design has no visible title. Product images are lazy loaded.
+Icon-only buttons have labels, images have alt text, every interactive element is reachable by keyboard with a visible focus ring, and each page has a heading — hidden where the design has no visible title.
+
+The app responds to three system preferences, not just one. `prefers-reduced-motion` keeps fades and colour changes — those aid comprehension — but drops anything that moves in space. `prefers-reduced-transparency` makes the sheet overlay solid instead of blurred, and `prefers-contrast: more` darkens borders and secondary text.
+
+## On a phone
+
+Tested on real hardware, not just at narrow widths in a browser — none of the problems this addresses reproduce in device emulation.
+
+The viewport uses `viewport-fit=cover` so the layout runs edge to edge, with `env(safe-area-inset-bottom)` padding the sheets away from the home indicator. Heights use `dvh` rather than `vh`, which overflows by the height of the address bar on load. Inputs are 16px on coarse pointers, since iOS Safari zooms into anything smaller and does not zoom back out.
+
+Touch feedback needed its own pass: the tap highlight is off and every control has an `:active` state instead, `touch-action: manipulation` removes the click delay, and the carousel declares `pan-y` so a horizontal swipe doesn't fight the page scroll. `overscroll-behavior` stops pull-to-refresh from firing inside the app and stops the filter sheet from dragging the page behind it.
+
+## Motion
+
+Motion is deliberately sparse — the design is brutalist and most of the interface has nothing to gain from moving. What animates does so for a reason: a spinner while a filter query runs, a toast confirming an item reached the cart, a height transition on the category collapsible, press feedback on anything tappable, and a short staggered entrance on the product grid.
+
+The product gallery paints the cached thumbnail behind the full-size image while it loads, so the frame is never empty on arrival.

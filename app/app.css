@@ -142,6 +142,29 @@ body {
   }
   html {
     @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior: none;
+  }
+
+  button,
+  a,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
+  button,
+  [role="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  @media (pointer: coarse) {
+    input,
+    textarea,
+    select {
+      font-size: 16px;
+    }
   }
 }
 
@@ -151,5 +174,41 @@ body {
 
   @variant sm {
     padding-inline: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property:
+      opacity, color, background-color, border-color !important;
+    transition-duration: 150ms !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  [data-slot="sheet-overlay"] {
+    backdrop-filter: none;
+    background-color: rgb(0 0 0 / 0.4);
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border: #6b7280;
+    --muted-foreground: #374151;
   }
 }

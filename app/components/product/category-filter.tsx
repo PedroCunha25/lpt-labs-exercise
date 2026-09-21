@@ -47,7 +47,7 @@ export function CategoryFilter({
         <Collapsible defaultOpen={rest.some((c) => selected.includes(c.slug))}>
           <CollapsibleTrigger className="group flex items-center gap-1 rounded-sm text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:outline-none">
             Show all ({categories.length})
-            <ChevronDown className="size-4 transition-transform group-data-panel-open:rotate-180" />
+            <ChevronDown className="size-4 transition-transform duration-200 ease-out group-data-panel-open:rotate-180" />
           </CollapsibleTrigger>
           <CollapsibleContent>
             <ul className="mt-3 space-y-3">
